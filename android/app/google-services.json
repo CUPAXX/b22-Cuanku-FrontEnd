@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "733208277657",
+    "project_id": "projectcoba-99",
+    "storage_bucket": "projectcoba-99.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:733208277657:android:9936484e34218b32973e08",
+        "android_client_info": {
+          "package_name": "com.projectbaru"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "733208277657-ujv8fom9g2fapm7fu06tj7epkifctf84.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkH8ysMb8LZSCKRYew4wgPGWVONZ-cNu8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "733208277657-ujv8fom9g2fapm7fu06tj7epkifctf84.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

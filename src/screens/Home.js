@@ -1,9 +1,18 @@
 import React, {Component} from 'react';
-import {Text, View, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  ScrollView,
+  RefreshControl,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {connect} from 'react-redux';
 import {usersGet} from '../redux/actions/users';
 import {REACT_APP_BASE_URL} from '@env';
+import {authNotifToken} from '../redux/actions/auth';
 
 class Home extends Component {
   state = {
@@ -11,9 +20,39 @@ class Home extends Component {
     phone: '',
     picture: '',
     balance: '',
+    refreshing: false,
   };
+
+  onRefresh = () => {
+    this.setState(
+      {
+        refreshing: true,
+      },
+      () => {
+        if (this.state.refreshing === true) {
+          const {token} = this.props.auth;
+          this.props.usersGet(token).then(() => {
+            this.setState({
+              picture: this.props.users.data.picture,
+              name: this.props.users.data.name,
+              balance: this.props.users.data.balance,
+              phone: this.props.users.data.phone,
+            });
+          });
+        }
+      },
+    );
+    setTimeout(() => {
+      this.setState({
+        refreshing: false,
+      });
+    }, 500);
+  };
+
   componentDidMount() {
     const {token} = this.props.auth;
+    const {notifToken} = this.props.auth;
+    this.props.authNotifToken(token, notifToken);
     this.props.usersGet(token).then(() => {
       this.setState({
         picture: this.props.users.data.picture,
@@ -26,13 +65,28 @@ class Home extends Component {
 
   render() {
     return (
-      <View style={styles.parent}>
+      <ScrollView
+        contentContainerStyle={styles.parent}
+        refreshControl={
+          <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this.onRefresh}
+          />
+        }>
         <View style={styles.parentWarp}>
           <View style={styles.parentTop}>
-            <Image
-              style={styles.Image}
-              source={{uri: `${REACT_APP_BASE_URL}${this.state.picture}`}}
-            />
+            {this.state.picture === null ? (
+              <Image
+                style={styles.Image}
+                source={require('../assets/profile.png')}
+              />
+            ) : (
+              <Image
+                style={styles.Image}
+                source={{uri: `${REACT_APP_BASE_URL}${this.state.picture}`}}
+              />
+            )}
+
             <Text style={styles.textName}>{this.state.name}</Text>
             <Text style={styles.textPhone}>{this.state.phone}</Text>
           </View>
@@ -65,7 +119,7 @@ class Home extends Component {
             </TouchableOpacity>
           </View>
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }
@@ -75,7 +129,7 @@ const mapStateToProps = state => ({
   auth: state.auth,
 });
 
-const mapDispatchToProps = {usersGet};
+const mapDispatchToProps = {usersGet, authNotifToken};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
 

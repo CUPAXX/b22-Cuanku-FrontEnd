@@ -9,19 +9,16 @@ export const authLogin = (phone, pin) => {
     const form = new URLSearchParams();
     form.append('phone', phone);
     form.append('pin', pin);
-    console.log(form);
     try {
       const {data} = await http().post(
         `${REACT_APP_BASE_URL}/auth/login`,
         form.toString(),
       );
-      console.log(data);
       dispatch({
         type: 'AUTH_LOGIN',
         payload: data.resultToken,
       });
     } catch (err) {
-      console.log(err);
       dispatch({
         type: 'AUTH_LOGIN_FAILED',
         payload: err.response.data.message,
@@ -40,7 +37,6 @@ export const authRegister = (name, email, pin, phone) => {
     form2.append('email', email);
     form2.append('pin', pin);
     form2.append('phone', phone);
-    console.log(form2);
     try {
       const {data} = await http().post(
         `${REACT_APP_BASE_URL}/auth/register`,
@@ -65,3 +61,20 @@ export const authRegister = (name, email, pin, phone) => {
 export const authLogout = () => ({
   type: 'AUTH_LOGOUT',
 });
+
+export const authNotifToken = (token, notifToken) => {
+  return async dispatch => {
+    const form = new URLSearchParams();
+    form.append('token', notifToken.token);
+    if (token) {
+      await http(token).post(
+        `${REACT_APP_BASE_URL}/auth/registerToken`,
+        form.toString(),
+      );
+      dispatch({
+        type: 'AUTH_NOTIF_TOKEN',
+        payload: notifToken,
+      });
+    }
+  };
+};

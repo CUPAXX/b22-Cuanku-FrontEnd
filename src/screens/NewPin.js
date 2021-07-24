@@ -5,10 +5,10 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
-  ToastAndroid,
 } from 'react-native';
 import {connect} from 'react-redux';
 import {usersUpdatePin} from '../redux/actions/users';
+import {showMessage} from 'react-native-flash-message';
 
 class NewPin extends Component {
   state = {
@@ -20,30 +20,33 @@ class NewPin extends Component {
     if (this.state.pin === this.state.confirmPin) {
       const {token} = this.props.auth;
       this.props.usersUpdatePin(this.state.pin, token).then(() => {
-        if (this.props.auth.errMsg === '') {
-          ToastAndroid.showWithGravity(
-            'Update Success',
-            ToastAndroid.LONG,
-            ToastAndroid.TOP,
-          );
+        if (this.props.users.errMsg === '') {
+          showMessage({
+            message: 'Change PIN Success',
+            type: 'default',
+            backgroundColor: '#01937C',
+            color: 'white',
+          });
           return this.props.navigation.reset({
             index: 0,
             routes: [{name: 'Change Pin Success'}],
           });
         } else {
-          ToastAndroid.showWithGravity(
-            `${this.props.auth.errMsg}`,
-            ToastAndroid.LONG,
-            ToastAndroid.TOP,
-          );
+          showMessage({
+            message: 'Change PIN Failed',
+            type: 'default',
+            backgroundColor: '#D54C4C',
+            color: 'white',
+          });
         }
       });
     } else {
-      ToastAndroid.showWithGravity(
-        'Pin didnt match',
-        ToastAndroid.LONG,
-        ToastAndroid.TOP,
-      );
+      showMessage({
+        message: 'PIN Didnt Match',
+        type: 'default',
+        backgroundColor: '#D54C4C',
+        color: 'white',
+      });
     }
   };
   render() {

@@ -5,11 +5,11 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
-  ToastAndroid,
 } from 'react-native';
 import {connect} from 'react-redux';
 import {usersGet} from '../redux/actions/users';
 import {usersTopup} from '../redux/actions/transaction';
+import {showMessage} from 'react-native-flash-message';
 
 class ViaMandiri extends Component {
   state = {
@@ -19,22 +19,24 @@ class ViaMandiri extends Component {
   topup = () => {
     const {token} = this.props.auth;
     this.props.usersTopup(this.state.balance, token).then(() => {
-      if (this.props.auth.errMsg === '') {
-        ToastAndroid.showWithGravity(
-          'Topup Success',
-          ToastAndroid.LONG,
-          ToastAndroid.TOP,
-        );
+      if (this.props.users.errMsg === '') {
+        showMessage({
+          message: 'Topup Success',
+          type: 'default',
+          backgroundColor: '#01937C',
+          color: 'white',
+        });
         return this.props.navigation.reset({
           index: 0,
           routes: [{name: 'Home'}],
         });
       } else {
-        ToastAndroid.showWithGravity(
-          `${this.props.auth.errMsg}`,
-          ToastAndroid.LONG,
-          ToastAndroid.TOP,
-        );
+        showMessage({
+          message: 'Topup Success',
+          type: 'default',
+          backgroundColor: '#01937C',
+          color: 'white',
+        });
       }
     });
   };

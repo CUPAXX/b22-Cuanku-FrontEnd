@@ -7,11 +7,11 @@
 #define TIMEOUT_SECONDS 600
 #define TEXT_TO_LOOK_FOR @"Welcome to React"
 
-@interface ProjectBaruTests : XCTestCase
+@interface CuankuAppTests : XCTestCase
 
 @end
 
-@implementation ProjectBaruTests
+@implementation CuankuAppTests
 
 - (BOOL)findSubviewInView:(UIView *)view matching:(BOOL(^)(UIView *view))test
 {

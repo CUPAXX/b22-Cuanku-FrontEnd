@@ -22,7 +22,6 @@ export const usersUpdate = (picture, name, token) => {
       type: 'image/jpeg',
     });
     form.append('name', name);
-    console.log(form);
     const {data} = await http(token).patch(`${REACT_APP_BASE_URL}/users`, form);
     dispatch({
       type: 'USERS_UPDATE',
@@ -35,14 +34,25 @@ export const usersOldPin = (pin, token) => {
   return async dispatch => {
     const form = new URLSearchParams();
     form.append('pin', pin);
-    const {data} = await http(token).post(
-      `${REACT_APP_BASE_URL}/users/oldPin`,
-      form,
-    );
-    dispatch({
-      type: 'USERS_OLD_PIN',
-      payload: data.message,
-    });
+
+    try {
+      const {data} = await http(token).post(
+        `${REACT_APP_BASE_URL}/users/oldPin`,
+        form,
+      );
+      dispatch({
+        type: 'USERS_OLD_PIN',
+        payload: data.message,
+      });
+    } catch (err) {
+      dispatch({
+        type: 'USERS_OLD_PIN_FAILED',
+        payload: err.response.data.message,
+      });
+      setTimeout(() => {
+        dispatch({type: 'USERS_RESET'});
+      }, 3000);
+    }
   };
 };
 

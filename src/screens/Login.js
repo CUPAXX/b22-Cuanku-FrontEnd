@@ -5,10 +5,10 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
-  ToastAndroid,
 } from 'react-native';
 import {connect} from 'react-redux';
 import {authLogin} from '../redux/actions/auth';
+import {showMessage} from 'react-native-flash-message';
 
 class Login extends Component {
   state = {
@@ -19,18 +19,20 @@ class Login extends Component {
   login = () => {
     this.props.authLogin(this.state.phone, this.state.pin).then(() => {
       if (this.props.auth.errMsg === '') {
-        ToastAndroid.showWithGravity(
-          'Login success',
-          ToastAndroid.LONG,
-          ToastAndroid.TOP,
-        );
+        showMessage({
+          message: 'Login Success',
+          type: 'default',
+          backgroundColor: '#01937C',
+          color: 'white',
+        });
         return this.props.navigation.navigate('Home');
       } else {
-        ToastAndroid.showWithGravity(
-          `${this.props.auth.errMsg}`,
-          ToastAndroid.LONG,
-          ToastAndroid.TOP,
-        );
+        showMessage({
+          message: `${this.props.auth.errMsg}`,
+          type: 'default',
+          backgroundColor: '#D54C4C',
+          color: 'white',
+        });
       }
     });
   };

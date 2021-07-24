@@ -5,10 +5,10 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
-  ToastAndroid,
 } from 'react-native';
 import {connect} from 'react-redux';
 import {usersOldPin} from '../redux/actions/users';
+import {showMessage} from 'react-native-flash-message';
 
 class ChangePin extends Component {
   state = {
@@ -17,19 +17,21 @@ class ChangePin extends Component {
   oldPin = () => {
     const {token} = this.props.auth;
     this.props.usersOldPin(this.state.pin, token).then(() => {
-      if (this.props.auth.errMsg === '') {
-        ToastAndroid.showWithGravity(
-          'Pin Match',
-          ToastAndroid.LONG,
-          ToastAndroid.TOP,
-        );
+      if (this.props.users.errMsg === '') {
+        showMessage({
+          message: 'Pin Match',
+          type: 'default',
+          backgroundColor: '#01937C',
+          color: 'white',
+        });
         return this.props.navigation.navigate('New Pin');
       } else {
-        ToastAndroid.showWithGravity(
-          `${this.props.auth.errMsg}`,
-          ToastAndroid.LONG,
-          ToastAndroid.TOP,
-        );
+        showMessage({
+          message: `${this.props.users.errMsg}`,
+          type: 'default',
+          backgroundColor: '#D54C4C',
+          color: 'white',
+        });
       }
     });
   };

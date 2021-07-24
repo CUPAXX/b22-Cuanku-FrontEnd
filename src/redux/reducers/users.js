@@ -29,6 +29,12 @@ const users = (state = initialState, action) => {
         data: action.payload,
       };
     }
+    case 'USERS_OLD_PIN_FAILED': {
+      return {
+        ...state,
+        errMsg: action.payload,
+      };
+    }
     case 'USERS_UPDATE_FAILED': {
       return {
         ...state,

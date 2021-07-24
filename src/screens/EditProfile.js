@@ -7,12 +7,12 @@ import {
   TextInput,
   Image,
   Alert,
-  ToastAndroid,
 } from 'react-native';
 import {connect} from 'react-redux';
 import {usersGet, usersUpdate} from '../redux/actions/users';
 import {REACT_APP_BASE_URL} from '@env';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import {showMessage} from 'react-native-flash-message';
 
 class EditProfile extends Component {
   state = {
@@ -34,22 +34,24 @@ class EditProfile extends Component {
     this.props
       .usersUpdate(this.state.picture, this.state.name, token)
       .then(() => {
-        if (this.props.auth.errMsg === '') {
-          ToastAndroid.showWithGravity(
-            'Update Success',
-            ToastAndroid.LONG,
-            ToastAndroid.TOP,
-          );
+        if (this.props.users.errMsg === '') {
+          showMessage({
+            message: 'Update Success',
+            type: 'default',
+            backgroundColor: '#01937C',
+            color: 'white',
+          });
           return this.props.navigation.reset({
             index: 0,
             routes: [{name: 'Home'}],
           });
         } else {
-          ToastAndroid.showWithGravity(
-            `${this.props.auth.errMsg}`,
-            ToastAndroid.LONG,
-            ToastAndroid.TOP,
-          );
+          showMessage({
+            message: 'Update Failed',
+            type: 'default',
+            backgroundColor: '#D54C4C',
+            color: 'white',
+          });
         }
       });
   };

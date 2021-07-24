@@ -9,5 +9,8 @@ import {persistStore} from 'redux-persist';
 //   return {store};
 // };
 
-export const store = createStore(rootReducer, applyMiddleware(thunk, logger));
-export const persistor = persistStore(store);
+export default () => {
+  const store = createStore(rootReducer, applyMiddleware(thunk, logger));
+  const persistor = persistStore(store);
+  return {store, persistor};
+};

@@ -5,11 +5,11 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
-  ToastAndroid,
 } from 'react-native';
 import {connect} from 'react-redux';
 
 import {transferToFriend} from '../redux/actions/transaction';
+import {showMessage} from 'react-native-flash-message';
 
 class TransferToFriend extends Component {
   state = {
@@ -22,22 +22,24 @@ class TransferToFriend extends Component {
     this.props
       .transferToFriend(this.state.phoneRecipient, this.state.balance, token)
       .then(() => {
-        if (this.props.auth.errMsg === '') {
-          ToastAndroid.showWithGravity(
-            'Transfer success',
-            ToastAndroid.LONG,
-            ToastAndroid.TOP,
-          );
+        if (this.props.users.errMsg === '') {
+          showMessage({
+            message: 'Transfer Success',
+            type: 'default',
+            backgroundColor: '#01937C',
+            color: 'white',
+          });
           return this.props.navigation.reset({
             index: 0,
             routes: [{name: 'Home'}],
           });
         } else {
-          ToastAndroid.showWithGravity(
-            `${this.props.auth.errMsg}`,
-            ToastAndroid.LONG,
-            ToastAndroid.TOP,
-          );
+          showMessage({
+            message: 'Transfer Failed',
+            type: 'default',
+            backgroundColor: '#D54C4C',
+            color: 'white',
+          });
         }
       });
   };

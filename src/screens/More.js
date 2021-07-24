@@ -81,7 +81,7 @@ class More extends Component {
                 <View style={styles.parentText}>
                   <Icon name={'lock'} color="white" size={25} />
                 </View>
-                <Text style={styles.textIcon}>Cahang Security Question</Text>
+                <Text style={styles.textIcon}>Change Security Question</Text>
               </View>
               <View style={styles.right}>
                 <Icon name={'chevron-right'} color="white" size={20} />

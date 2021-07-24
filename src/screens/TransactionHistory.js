@@ -1,13 +1,9 @@
 import React, {Component} from 'react';
-import {Text, View, StyleSheet, ScrollView, FlatList} from 'react-native';
+import {View, StyleSheet, ScrollView, FlatList, LogBox} from 'react-native';
 import {SearchBar} from 'react-native-elements';
 import ItemHistory from '../components/ItemHistory';
 import {connect} from 'react-redux';
 import {historyGet, historyGetDefault} from '../redux/actions/transaction';
-
-import {showMessage} from 'react-native-flash-message';
-
-import Icon from 'react-native-vector-icons/FontAwesome';
 
 class TransactionHistory extends Component {
   state = {
@@ -16,11 +12,9 @@ class TransactionHistory extends Component {
     items: [],
   };
 
-  // componentDidMount() {
-  //   const {token} = this.props.auth;
-  //   const page = this.state.page + 1;
-  //   this.props.historyGetDefault(page, token);
-  // }
+  componentDidMount() {
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+  }
 
   search = () => {
     const {token} = this.props.auth;
@@ -76,7 +70,6 @@ class TransactionHistory extends Component {
   };
 
   render() {
-    console.log(this.state);
     // const {search} = this.props.transaction;
     // search.map(val => val.refNo);
     // console.log(search.map(val => val.refNo));

@@ -5,11 +5,11 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
-  ToastAndroid,
 } from 'react-native';
 import {connect} from 'react-redux';
 
 import {mobileTopup} from '../redux/actions/transaction';
+import {showMessage} from 'react-native-flash-message';
 
 class MobileTopup extends Component {
   state = {
@@ -22,22 +22,24 @@ class MobileTopup extends Component {
     this.props
       .mobileTopup(this.state.balance, this.state.phone, token)
       .then(() => {
-        if (this.props.auth.errMsg === '') {
-          ToastAndroid.showWithGravity(
-            'Mobile Topup success',
-            ToastAndroid.LONG,
-            ToastAndroid.TOP,
-          );
+        if (this.props.users.errMsg === '') {
+          showMessage({
+            message: 'Mobile Topup Success',
+            type: 'default',
+            backgroundColor: '#01937C',
+            color: 'white',
+          });
           return this.props.navigation.reset({
             index: 0,
             routes: [{name: 'Home'}],
           });
         } else {
-          ToastAndroid.showWithGravity(
-            `${this.props.auth.errMsg}`,
-            ToastAndroid.LONG,
-            ToastAndroid.TOP,
-          );
+          showMessage({
+            message: 'Mobile Topup Failed',
+            type: 'default',
+            backgroundColor: '#D54C4C',
+            color: 'white',
+          });
         }
       });
   };

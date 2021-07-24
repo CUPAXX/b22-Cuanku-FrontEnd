@@ -5,12 +5,12 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
-  ToastAndroid,
 } from 'react-native';
 import {connect} from 'react-redux';
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import {authRegister} from '../redux/actions/auth';
+import {showMessage} from 'react-native-flash-message';
 
 class Sign extends Component {
   state = {
@@ -23,19 +23,21 @@ class Sign extends Component {
   register = values => {
     const {name, email, pin, phone} = values;
     this.props.authRegister(name, email, pin, phone).then(() => {
-      if (this.props.auth.errMsg === '') {
-        ToastAndroid.showWithGravity(
-          'Signup success',
-          ToastAndroid.LONG,
-          ToastAndroid.TOP,
-        );
+      if (this.props.users.errMsg === '') {
+        showMessage({
+          message: 'Register Success',
+          type: 'default',
+          backgroundColor: '#01937C',
+          color: 'white',
+        });
         return this.props.navigation.navigate('Login');
       } else {
-        ToastAndroid.showWithGravity(
-          `${this.props.auth.errMsg}`,
-          ToastAndroid.LONG,
-          ToastAndroid.TOP,
-        );
+        showMessage({
+          message: 'Register Failed',
+          type: 'default',
+          backgroundColor: '#D54C4C',
+          color: 'white',
+        });
       }
     });
   };

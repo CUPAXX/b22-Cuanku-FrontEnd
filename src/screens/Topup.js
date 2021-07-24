@@ -13,9 +13,6 @@ export default class Topup extends Component {
   render() {
     return (
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.parentTop}>
-          <Text style={styles.textBalance}>Rp.0</Text>
-        </View>
         <View style={styles.warpAll}>
           <Text style={styles.label}>Isi Ulang via:</Text>
           <TouchableOpacity style={styles.container}>

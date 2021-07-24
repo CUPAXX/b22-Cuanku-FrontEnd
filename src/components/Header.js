@@ -35,7 +35,7 @@ const Header = ({navigation, scene}) => {
 
         <TouchableOpacity
           style={HeaderStyles.right}
-          onPress={() => navigation.navigate('History')}>
+          onPress={() => navigation.navigate('Transaction History')}>
           {scene.route.name === 'Topup' ? (
             <AntIcon
               name={'barschart'}

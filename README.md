@@ -13,7 +13,8 @@ E-Wallet Mobile apps, users can topup balance, transfer balance to another user,
 <br> </br>
 
 # Feature
-<li>Login & Register</li>
+<ul>
+  <li>Login & Register</li>
 <li>See & Update Profile</li>
 <li>Topup Balance</li>
 <li>Transfer Balance</li>
@@ -23,6 +24,7 @@ E-Wallet Mobile apps, users can topup balance, transfer balance to another user,
 <li>Persist Storage</li>
 <li>Splash Screen</li>
 <li>Logout</li>
+</ul>
 
 <br> </br>
 # Showcase

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -28,6 +28,8 @@ import MobileTopup from './src/screens/MobileTopup';
 import TransactionHistory from './src/screens/TransactionHistory';
 
 import Header from './src/components/Header';
+
+import RNBootSplash from 'react-native-bootsplash';
 
 function MainTab() {
   return (
@@ -86,6 +88,16 @@ function MainTab() {
 }
 
 function App(props) {
+  useEffect(() => {
+    const init = async () => {
+      // …do multiple sync or async tasks
+    };
+
+    init().finally(async () => {
+      await RNBootSplash.hide({fade: true});
+      console.log('Bootsplash has been hidden successfully');
+    });
+  }, []);
   return (
     <NavigationContainer>
       <Stack.Navigator>

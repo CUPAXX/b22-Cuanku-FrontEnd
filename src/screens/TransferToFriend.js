@@ -22,7 +22,7 @@ class TransferToFriend extends Component {
     this.props
       .transferToFriend(this.state.phoneRecipient, this.state.balance, token)
       .then(() => {
-        if (this.props.users.errMsg === '') {
+        if (this.props.transaction.errMsg === '') {
           showMessage({
             message: 'Transfer Success',
             type: 'default',
@@ -35,7 +35,7 @@ class TransferToFriend extends Component {
           });
         } else {
           showMessage({
-            message: 'Transfer Failed',
+            message: `${this.props.transaction.errMsg}`,
             type: 'default',
             backgroundColor: '#D54C4C',
             color: 'white',

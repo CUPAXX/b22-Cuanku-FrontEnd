@@ -22,7 +22,7 @@ class MobileTopup extends Component {
     this.props
       .mobileTopup(this.state.balance, this.state.phone, token)
       .then(() => {
-        if (this.props.users.errMsg === '') {
+        if (this.props.transaction.errMsg === '') {
           showMessage({
             message: 'Mobile Topup Success',
             type: 'default',

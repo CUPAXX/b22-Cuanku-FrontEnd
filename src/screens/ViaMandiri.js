@@ -19,7 +19,7 @@ class ViaMandiri extends Component {
   topup = () => {
     const {token} = this.props.auth;
     this.props.usersTopup(this.state.balance, token).then(() => {
-      if (this.props.users.errMsg === '') {
+      if (this.props.transaction.errMsg === '') {
         showMessage({
           message: 'Topup Success',
           type: 'default',
@@ -32,9 +32,9 @@ class ViaMandiri extends Component {
         });
       } else {
         showMessage({
-          message: 'Topup Success',
+          message: `${this.props.transaction.errMsg}`,
           type: 'default',
-          backgroundColor: '#01937C',
+          backgroundColor: '#D54C4C',
           color: 'white',
         });
       }
@@ -42,6 +42,7 @@ class ViaMandiri extends Component {
   };
 
   render() {
+    console.log(this.props.transaction.errMsg);
     return (
       <View>
         <View style={styles.parentTop}>
@@ -110,6 +111,7 @@ class ViaMandiri extends Component {
 const mapStateToProps = state => ({
   users: state.users,
   auth: state.auth,
+  transaction: state.transaction,
 });
 
 const mapDispatchToProps = {usersTopup, usersGet};

@@ -23,7 +23,7 @@ class Sign extends Component {
   register = values => {
     const {name, email, pin, phone} = values;
     this.props.authRegister(name, email, pin, phone).then(() => {
-      if (this.props.users.errMsg === '') {
+      if (this.props.auth.errMsg === '') {
         showMessage({
           message: 'Register Success',
           type: 'default',

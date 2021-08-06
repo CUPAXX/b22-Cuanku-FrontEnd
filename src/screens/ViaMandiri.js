@@ -14,6 +14,8 @@ import {showMessage} from 'react-native-flash-message';
 class ViaMandiri extends Component {
   state = {
     balance: '',
+    isPress: 0,
+    isActive: true,
   };
 
   topup = () => {
@@ -53,33 +55,33 @@ class ViaMandiri extends Component {
         <View style={styles.parentMid}>
           <View style={styles.parentBtn}>
             <TouchableOpacity
-              style={styles.btn}
-              onPress={e => this.setState({balance: '10000'})}>
+              style={this.state.isPress === 1 ? styles.cob : styles.btn}
+              onPress={e => this.setState({balance: '10000', isPress: 1})}>
               <Text style={styles.textBtn}>10.000</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={styles.btn}
-              onPress={e => this.setState({balance: '25000'})}>
+              style={this.state.isPress === 2 ? styles.cob : styles.btn}
+              onPress={e => this.setState({balance: '25000', isPress: 2})}>
               <Text style={styles.textBtn}>25.000</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={styles.btn}
-              onPress={e => this.setState({balance: '50000'})}>
+              style={this.state.isPress === 3 ? styles.cob : styles.btn}
+              onPress={e => this.setState({balance: '50000', isPress: 3})}>
               <Text style={styles.textBtn}>50.000</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={styles.btn}
-              onPress={e => this.setState({balance: '100000'})}>
+              style={this.state.isPress === 4 ? styles.cob : styles.btn}
+              onPress={e => this.setState({balance: '100000', isPress: 4})}>
               <Text style={styles.textBtn}>100.000</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={styles.btn}
-              onPress={e => this.setState({balance: '300000'})}>
+              style={this.state.isPress === 5 ? styles.cob : styles.btn}
+              onPress={e => this.setState({balance: '300000', isPress: 5})}>
               <Text style={styles.textBtn}>300.000</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={styles.btn}
-              onPress={e => this.setState({balance: '500000'})}>
+              style={this.state.isPress === 6 ? styles.cob : styles.btn}
+              onPress={e => this.setState({balance: '500000', isPress: 6})}>
               <Text style={styles.textBtn}>500.000</Text>
             </TouchableOpacity>
           </View>
@@ -180,5 +182,16 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     fontSize: 17,
+  },
+  cob: {
+    backgroundColor: '#f0f0f0',
+    paddingVertical: 5,
+    width: 104,
+    borderRadius: 4,
+    elevation: 5,
+    margin: 10,
+    alignItems: 'center',
+    borderColor: '#00ace0',
+    borderWidth: 2,
   },
 });

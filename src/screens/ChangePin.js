@@ -9,14 +9,18 @@ import {
 import {connect} from 'react-redux';
 import {usersOldPin} from '../redux/actions/users';
 import {showMessage} from 'react-native-flash-message';
+import {Formik} from 'formik';
+import * as yup from 'yup';
+import {CommonActions} from '@react-navigation/native';
 
 class ChangePin extends Component {
   state = {
     pin: '',
   };
-  oldPin = () => {
+  oldPin = values => {
     const {token} = this.props.auth;
-    this.props.usersOldPin(this.state.pin, token).then(() => {
+    const {pin} = values;
+    this.props.usersOldPin(pin, token).then(() => {
       if (this.props.users.errMsg === '') {
         showMessage({
           message: 'Pin Match',
@@ -24,7 +28,21 @@ class ChangePin extends Component {
           backgroundColor: '#01937C',
           color: 'white',
         });
-        return this.props.navigation.navigate('New Pin');
+        // return this.props.navigation.reset({
+        //   index: 0,
+        //   routes: [{name: 'New Pin'}],
+        // });
+        return this.props.navigation.dispatch(
+          CommonActions.reset({
+            index: 1,
+            routes: [
+              {name: 'Home'},
+              {
+                name: 'New Pin',
+              },
+            ],
+          }),
+        );
       } else {
         showMessage({
           message: `${this.props.users.errMsg}`,
@@ -41,20 +59,53 @@ class ChangePin extends Component {
       <View style={styles.parent}>
         <View style={styles.parentWarp}>
           <View style={styles.parentTop} />
-          <TextInput
-            style={styles.input}
-            placeholder="Enter Old PIN"
-            placeholderTextColor="#fff"
-            keyboardType="numeric"
-            secureTextEntry={true}
-            value={this.state.pin}
-            onChangeText={val => this.setState({pin: val})}
-          />
-          <View style={styles.parentTop}>
-            <TouchableOpacity style={styles.btn} onPress={this.oldPin}>
-              <Text style={styles.textBtn}>NEXT</Text>
-            </TouchableOpacity>
-          </View>
+          <Formik
+            initialValues={{
+              pin: '',
+            }}
+            onSubmit={values => this.oldPin(values)}
+            validationSchema={yup.object().shape({
+              pin: yup
+                .string()
+                .matches(/^[0-9]+$/, 'Must be only number')
+                .min(6, 'Pin at least 6 character')
+                .max(6, 'Pin max 6 chars.')
+                .required(),
+            })}>
+            {({
+              values,
+              handleChange,
+              errors,
+              setFieldTouched,
+              touched,
+              isValid,
+              handleSubmit,
+            }) => (
+              <View>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Enter Old PIN"
+                  placeholderTextColor="#fff"
+                  keyboardType="numeric"
+                  secureTextEntry={true}
+                  value={values.pin}
+                  onChangeText={handleChange('pin')}
+                  onBlur={() => setFieldTouched('pin')}
+                />
+                {touched.pin && errors.pin && (
+                  <Text style={styles.errmsg}>{errors.pin}</Text>
+                )}
+                <View style={styles.parentTop}>
+                  <TouchableOpacity
+                    style={styles.btn}
+                    disabled={!isValid}
+                    onPress={handleSubmit}>
+                    <Text style={styles.textBtn}>NEXT</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            )}
+          </Formik>
         </View>
       </View>
     );
@@ -82,6 +133,12 @@ const styles = StyleSheet.create({
   image: {
     width: 130,
     height: 130,
+  },
+  errmsg: {
+    fontSize: 15,
+    textTransform: 'capitalize',
+    color: 'red',
+    fontWeight: 'bold',
   },
   parentTop: {
     alignItems: 'center',

@@ -113,6 +113,11 @@ function App(props) {
               component={Sign}
               options={{headerShown: false}}
             />
+            <Stack.Screen
+              name="Change Pin Success"
+              component={ChangePinSuccess}
+              options={{header: Header}}
+            />
           </React.Fragment>
         ) : (
           <React.Fragment>
@@ -164,11 +169,6 @@ function App(props) {
             <Stack.Screen
               name="New Pin"
               component={NewPin}
-              options={{header: Header}}
-            />
-            <Stack.Screen
-              name="Change Pin Success"
-              component={ChangePinSuccess}
               options={{header: Header}}
             />
           </React.Fragment>

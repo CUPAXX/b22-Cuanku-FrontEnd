@@ -9,17 +9,22 @@ import {
 import {connect} from 'react-redux';
 import {usersUpdatePin} from '../redux/actions/users';
 import {showMessage} from 'react-native-flash-message';
+import {authLogout} from '../redux/actions/auth';
+import {Formik} from 'formik';
+import * as yup from 'yup';
+import {CommonActions} from '@react-navigation/native';
 
 class NewPin extends Component {
-  state = {
-    pin: '',
-    confirmPin: '',
-  };
+  // state = {
+  //   pin: '',
+  //   confirmPin: '',
+  // };
 
-  update = () => {
-    if (this.state.pin === this.state.confirmPin) {
+  update = values => {
+    const {pin, confirmPin} = values;
+    if (pin === confirmPin) {
       const {token} = this.props.auth;
-      this.props.usersUpdatePin(this.state.pin, token).then(() => {
+      this.props.usersUpdatePin(pin, token).then(() => {
         if (this.props.users.errMsg === '') {
           showMessage({
             message: 'Change PIN Success',
@@ -27,10 +32,34 @@ class NewPin extends Component {
             backgroundColor: '#01937C',
             color: 'white',
           });
-          return this.props.navigation.reset({
-            index: 0,
-            routes: [{name: 'Change Pin Success'}],
-          });
+          this.props.authLogout();
+
+          // this.props.navigation.dispatch(
+          //   CommonActions.reset({
+          //     index: 1,
+          //     routes: [
+          //       {name: 'Login'},
+          //       {
+          //         name: 'Change Pin Success',
+          //       },
+          //     ],
+          //   }),
+          // );
+          return this.props.navigation.dispatch(
+            CommonActions.reset({
+              index: 1,
+              routes: [
+                {name: 'Login'},
+                {
+                  name: 'Change Pin Success',
+                },
+              ],
+            }),
+          );
+          // this.props.navigation.reset({
+          //   index: 0,
+          //   routes: [{name: 'Change Pin Success'}],
+          // });
         } else {
           showMessage({
             message: 'Change PIN Failed',
@@ -54,30 +83,74 @@ class NewPin extends Component {
       <View style={styles.parent}>
         <View style={styles.parentWarp}>
           <View style={styles.parentTop} />
+          <Formik
+            initialValues={{
+              pin: '',
+              confirmPin: '',
+            }}
+            onSubmit={values => this.update(values)}
+            validationSchema={yup.object().shape({
+              pin: yup
+                .string()
+                .matches(/^[0-9]+$/, 'Must be only number')
+                .min(6, 'Pin at least 6 character')
+                .max(6, 'Pin max 6 chars.')
+                .required(),
+              confirmPin: yup
+                .string()
 
-          <TextInput
-            style={styles.input}
-            placeholder="Enter New PIN"
-            placeholderTextColor="#fff"
-            keyboardType="numeric"
-            secureTextEntry={true}
-            value={this.state.pin}
-            onChangeText={val => this.setState({pin: val})}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Re-Enter New PIN"
-            placeholderTextColor="#fff"
-            keyboardType="numeric"
-            secureTextEntry={true}
-            value={this.state.confirmPin}
-            onChangeText={val => this.setState({confirmPin: val})}
-          />
-          <View style={styles.parentTop}>
-            <TouchableOpacity style={styles.btn} onPress={this.update}>
-              <Text style={styles.textBtn}>SAVE</Text>
-            </TouchableOpacity>
-          </View>
+                .matches(/^[0-9]+$/, 'Must be only number')
+                .min(6, 'Pin at least 6 character')
+                .max(6, 'Pin max 6 chars.')
+                .required(' Confirm Pin Is Required'),
+            })}>
+            {({
+              values,
+              handleChange,
+              errors,
+              setFieldTouched,
+              touched,
+              isValid,
+              handleSubmit,
+            }) => (
+              <View>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Enter New PIN"
+                  placeholderTextColor="#fff"
+                  keyboardType="numeric"
+                  secureTextEntry={true}
+                  value={values.pin}
+                  onChangeText={handleChange('pin')}
+                  onBlur={() => setFieldTouched('pin')}
+                />
+                {touched.pin && errors.pin && (
+                  <Text style={styles.errmsg}>{errors.pin}</Text>
+                )}
+                <TextInput
+                  style={styles.input}
+                  placeholder="Re-Enter New PIN"
+                  placeholderTextColor="#fff"
+                  keyboardType="numeric"
+                  secureTextEntry={true}
+                  value={values.confirmPin}
+                  onChangeText={handleChange('confirmPin')}
+                  onBlur={() => setFieldTouched('confirmPin')}
+                />
+                {touched.confirmPin && errors.confirmPin && (
+                  <Text style={styles.errmsg}>{errors.confirmPin}</Text>
+                )}
+                <View style={styles.parentTop}>
+                  <TouchableOpacity
+                    style={styles.btn}
+                    disabled={!isValid}
+                    onPress={handleSubmit}>
+                    <Text style={styles.textBtn}>SAVE</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            )}
+          </Formik>
         </View>
       </View>
     );
@@ -89,7 +162,7 @@ const mapStateToProps = state => ({
   auth: state.auth,
 });
 
-const mapDispatchToProps = {usersUpdatePin};
+const mapDispatchToProps = {usersUpdatePin, authLogout};
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewPin);
 
@@ -135,5 +208,11 @@ const styles = StyleSheet.create({
   },
   textBtn: {
     color: '#00bfff',
+  },
+  errmsg: {
+    fontSize: 15,
+    textTransform: 'capitalize',
+    color: 'red',
+    fontWeight: 'bold',
   },
 });

@@ -7,7 +7,7 @@ import {
   TextInput,
 } from 'react-native';
 import {connect} from 'react-redux';
-import {authLogin} from '../redux/actions/auth';
+import {authLogin, cobaGet} from '../redux/actions/auth';
 import {showMessage} from 'react-native-flash-message';
 import {Formik} from 'formik';
 import * as yup from 'yup';
@@ -17,6 +17,10 @@ class Login extends Component {
     phone: '',
     pin: '',
   };
+
+  componentDidMount() {
+    this.props.cobaGet();
+  }
 
   login = values => {
     const {phone, pin} = values;
@@ -40,6 +44,8 @@ class Login extends Component {
     });
   };
   render() {
+    const {data} = this.props.auth;
+    console.log(data);
     return (
       <View style={styles.parent}>
         <Formik
@@ -130,13 +136,11 @@ class Login extends Component {
     );
   }
 }
-
 const mapStateToProps = state => ({
   auth: state.auth,
 });
 
-const mapDispatchToProps = {authLogin};
-
+const mapDispatchToProps = {authLogin, cobaGet};
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
 
 const styles = StyleSheet.create({

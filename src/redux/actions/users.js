@@ -3,6 +3,7 @@ import {http} from '../../helpers/http';
 import {REACT_APP_BASE_URL} from '@env';
 
 export const usersGet = token => {
+  console.log('1');
   return async dispatch => {
     const {data} = await http(token).get(`${REACT_APP_BASE_URL}/users/detail`);
     dispatch({
@@ -13,6 +14,7 @@ export const usersGet = token => {
 };
 
 export const usersUpdate = (picture, name, token) => {
+  console.log('1');
   return async dispatch => {
     const form = new FormData();
 
@@ -31,11 +33,14 @@ export const usersUpdate = (picture, name, token) => {
 };
 
 export const usersOldPin = (pin, token) => {
+  console.log('1');
   return async dispatch => {
+    console.log('2');
     const form = new URLSearchParams();
     form.append('pin', pin);
 
     try {
+      console.log('3');
       const {data} = await http(token).post(
         `${REACT_APP_BASE_URL}/users/oldPin`,
         form,
@@ -57,6 +62,7 @@ export const usersOldPin = (pin, token) => {
 };
 
 export const usersUpdatePin = (pin, token) => {
+  console.log('1');
   return async dispatch => {
     const form = new FormData();
 

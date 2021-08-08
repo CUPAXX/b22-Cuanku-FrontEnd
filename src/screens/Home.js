@@ -64,6 +64,7 @@ class Home extends Component {
   }
 
   render() {
+    console.log(this.state.picture);
     return (
       <ScrollView
         contentContainerStyle={styles.parent}

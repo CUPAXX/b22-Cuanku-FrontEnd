@@ -16,7 +16,7 @@ import {showMessage} from 'react-native-flash-message';
 
 class EditProfile extends Component {
   state = {
-    picture: 'null',
+    picture: null,
     name: '',
   };
   componentDidMount() {

@@ -3,6 +3,7 @@ import {http} from '../../helpers/http';
 import {REACT_APP_BASE_URL} from '@env';
 
 export const transferToFriend = (phoneRecipient, balance, token) => {
+  console.log('1');
   return async dispatch => {
     const form = new URLSearchParams();
     form.append('phoneRecipient', phoneRecipient);
@@ -29,6 +30,7 @@ export const transferToFriend = (phoneRecipient, balance, token) => {
 };
 
 export const usersTopup = (balance, token) => {
+  console.log('1');
   return async dispatch => {
     const form = new URLSearchParams();
     form.append('balance', balance);
@@ -54,6 +56,7 @@ export const usersTopup = (balance, token) => {
 };
 
 export const mobileTopup = (balance, phone, token) => {
+  console.log('1');
   return async dispatch => {
     const form = new URLSearchParams();
     form.append('balance', balance);
@@ -80,6 +83,7 @@ export const mobileTopup = (balance, phone, token) => {
 };
 
 export const historyGet = (sort, search, page, token) => {
+  console.log('1');
   return async dispatch => {
     try {
       const {data} = await http(token).get(
@@ -102,6 +106,7 @@ export const historyGet = (sort, search, page, token) => {
 };
 
 export const historyGetDefault = (sort, page, token) => {
+  console.log('1');
   return async dispatch => {
     try {
       const {data} = await http(token).get(

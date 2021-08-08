@@ -5,6 +5,7 @@ import {REACT_APP_BASE_URL} from '@env';
 // const {REACT_APP_BASE_URL: URL} = require('@env');
 
 export const authLogin = (phone, pin) => {
+  console.log('1');
   return async dispatch => {
     const form = new URLSearchParams();
     form.append('phone', phone);
@@ -31,6 +32,7 @@ export const authLogin = (phone, pin) => {
 };
 
 export const authRegister = (name, email, pin, phone) => {
+  console.log('1');
   return async dispatch => {
     const form2 = new URLSearchParams();
     form2.append('name', name);
@@ -63,6 +65,7 @@ export const authLogout = () => ({
 });
 
 export const authNotifToken = (token, notifToken) => {
+  console.log('1');
   return async dispatch => {
     const form = new URLSearchParams();
     form.append('token', notifToken.token);
@@ -76,5 +79,16 @@ export const authNotifToken = (token, notifToken) => {
         payload: notifToken,
       });
     }
+  };
+};
+
+export const cobaGet = () => {
+  console.log('1');
+  return async dispatch => {
+    const {data} = await http().get(`${REACT_APP_BASE_URL}/users`);
+    dispatch({
+      type: 'AUTH_GET',
+      payload: data,
+    });
   };
 };

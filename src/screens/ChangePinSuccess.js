@@ -24,7 +24,9 @@ class ChangePinSuccess extends Component {
             </Text>
           </View>
           <View style={styles.parentTop}>
-            <TouchableOpacity style={styles.btn} onPress={this.onLogout}>
+            <TouchableOpacity
+              style={styles.btn}
+              onPress={() => this.props.navigation.navigate('Login')}>
               <Text style={styles.textBtn}>LOGIN</Text>
             </TouchableOpacity>
           </View>

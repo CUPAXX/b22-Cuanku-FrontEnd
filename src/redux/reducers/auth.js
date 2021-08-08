@@ -3,6 +3,7 @@ const initialState = {
   errMsg: '',
   succMsg: '',
   notifToken: null,
+  data: [],
 };
 
 const auth = (state = initialState, action) => {
@@ -52,6 +53,12 @@ const auth = (state = initialState, action) => {
         token: null,
         errMsg: '',
         sccMsg: '',
+      };
+    }
+    case 'AUTH_GET': {
+      return {
+        ...state,
+        data: action.payload,
       };
     }
     default: {

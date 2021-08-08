@@ -140,7 +140,6 @@ class EditProfile extends Component {
             style={styles.input}
             placeholder="fiqry"
             placeholderTextColor="#fff"
-            keyboardType="numeric"
             value={this.state.name}
             onChangeText={val => this.setState({name: val})}
           />
